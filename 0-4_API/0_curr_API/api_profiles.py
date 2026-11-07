@@ -1,7 +1,9 @@
 """DeepSeek Flash generation and provider-reported model metadata."""
 
 from datetime import datetime, timezone
+from importlib.util import module_from_spec, spec_from_file_location
 import json
+import sys
 import os
 from pathlib import Path
 import threading
@@ -79,3 +81,17 @@ def record_response_metadata(response, *, stage, model=MODEL_ID):
     }
     with _LOG_LOCK, Path(path).open("a", encoding="utf-8") as stream:
         stream.write(json.dumps(record, ensure_ascii=False) + "\n")
+
+# The generation workers import this profile in their own process. The initial
+# response generator and the evaluator run separately and retain their budgets.
+def _install_generation_budget():
+    name = "spq_qwen36_output_request_patch"
+    if name not in sys.modules:
+        spec = spec_from_file_location(name, Path(__file__).with_name("qwen36_output_request_patch.py"))
+        adapter = module_from_spec(spec)
+        spec.loader.exec_module(adapter)
+        sys.modules[name] = adapter
+    sys.modules[name].install_qwen36_output_request_patch({MODEL_ID: 8192})
+
+
+_install_generation_budget()
