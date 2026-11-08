@@ -1,5 +1,5 @@
 # Third-party code and data
 
-BiVerify uses verification and revision code and a Python interpreter adapted from [ProgCo](https://github.com/songxiaoshuai/progco) by Xiaoshuai Song and colleagues. The [ProgCo license](S_SC_S4-2_BiVerify/upstream/progco/LICENSE) is included alongside the adapted code.
+BiVerify uses verification and revision code and a Python interpreter adapted from [ProgCo](https://github.com/songxiaoshuai/progco) by Xiaoshuai Song and colleagues. The ProgCo license is included in `S_SC_S4-2_BiVerify/upstream/progco/LICENSE`.
 
-The [dataset documentation](0-0_datasets/README.md) lists the sources and terms for preparing the paper benchmarks locally.
+`0-0_datasets/README.md` lists the sources and terms for preparing the paper benchmarks locally.
